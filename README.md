@@ -1,5 +1,4 @@
-# Own
-**AI-Powered Price Prediction for Agricultural and Vegetable Markets**
+#AI-Powered Price Prediction for Agricultural and Vegetable Markets
 **Project Overview**
 
 Farmers face a significant challenge: unpredictable crop and vegetable prices. Market rates fluctuate daily due to weather, supply-demand changes, and other conditions. Many farmers end up selling at the wrong time, leading to reduced profits or even losses.
