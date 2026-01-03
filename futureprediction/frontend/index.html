@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FutureCrop - AI Price Prediction</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #f1f8e9);
+      text-align: center;
+      padding: 40px;
+      margin: 0;
+    }
+    h1 {
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      padding: 25px;
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      text-align: left;
+      font-weight: bold;
+      color: #444;
+    }
+    select, input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+    button {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      width: 100%;
+    }
+    button:hover {
+      background: #1b5e20;
+    }
+    #result {
+      margin-top: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #1565c0;
+      line-height: 1.6;
+      text-align: left;
+    }
+    canvas {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>FutureCrop - AI Price Prediction</h1>
+  <div class="card">
+    <form id="predictionForm">
+      <!-- State Selection -->
+      <label for="state">Select State/UT:</label>
+      <select id="state" required>
+        <option value="">--Choose State/UT--</option>
+        <option>Andhra Pradesh</option>
+        <option>Arunachal Pradesh</option>
+        <option>Assam</option>
+        <option>Bihar</option>
+        <option>Chandigarh</option>
+        <option>Chhattisgarh</option>
+        <option>Delhi</option>
+        <option>Goa</option>
+        <option>Gujarat</option>
+        <option>Haryana</option>
+        <option>Himachal Pradesh</option>
+        <option>Jammu and Kashmir</option>
+        <option>Jharkhand</option>
+        <option>Karnataka</option>
+        <option>Kerala</option>
+        <option>Madhya Pradesh</option>
+        <option>Maharashtra</option>
+        <option>Manipur</option>
+        <option>Meghalaya</option>
+        <option>Mizoram</option>
+        <option>Nagaland</option>
+        <option>Odisha</option>
+        <option>Punjab</option>
+        <option>Rajasthan</option>
+        <option>Tamil Nadu</option>
+        <option>Telangana</option>
+        <option>Tripura</option>
+        <option>Uttar Pradesh</option>
+        <option>Uttarakhand</option>
+        <option>West Bengal</option>
+      </select>
+      <!-- district selection-->
+      <label for="district">Select district:</label>
+      <select id="district" required>
+        <option>Srikakulam</option>
+        <option>Anakapalli</option>
+        <option>Visakhapatnam</option>
+        <option>Vizianagaram</option>
+        <option>Kakinada</option>
+        <option>East Godavari</option>
+        <option>Konaseema</option>
+        <option>West Godavari</option>
+        <option>Eluru</option>
+        <option>Krishna</option>
+        <option>NTR</option>
+        <option>Guntur</option>
+        <option>Palnadu</option>
+        <option>Bapatla</option>
+        <option>Prakasam</option>
+        <option>SPSR Nellore</option>
+        <option>Kurnool</option>
+        <option>Nandyal</option>
+        <option>Anantapuram</option>
+        <option>Sri Sathya Sai</option>
+        <option>YSR Kadapa</option>
+        <option>Annamayya</option>
+        <option>Chittor</option>
+        <option>Titupati</option>
+        <option>Adilabad</option>
+        <option>Komaram Bheem</option>
+        <option>Mancherial</option>
+        <option>Nirmal</option>
+        <option>Nizamabad</option>
+        <option>Jagtial</option>
+        <option>Peddapalli</option>
+        <option>Karimnagar</option>
+        <option>Rajanna Sircialla</option>
+        <option>Medak</option>
+        <option>Sangareddy</option>
+        <option>Siddipet</option>
+        <option>Kamareddy</option>
+        <option>Medchal-Malkajgiri</option>
+        <option>Hyderabad</option>
+        <option>Ranga Reddy</option>
+        <option>Vikarabad</option>
+        <option>Narayanpet</option>
+        <option>Mahabubnagar</option>
+        <option>Jogulamba Gadwal</option>
+        <option>Wanaparthy</option>
+        <option>Nagarkurnool</option>
+        <option>Nalgonda</option>
+        <option>Suryapet</option>
+        <option>Yadadri Bhuvanagiri</option>
+        <option>Khammam</option>
+        <option>Bhadradri Kothgundem</option>
+        <option>Warangal Urban</option>
+        <option>Warangal Rural</option>
+        <option>Jangaon</option>
+        <option>Mahabubabad</option>
+        <option>Mulugu</option>
+        <option>Jayashankar Bhupalpally</option>
+      </select>
+      <!-- Crop Selection -->
+      <label for="crop">Select Crop:</label>
+      <select id="crop" required>
+        <option value="">--Choose Crop--</option>
+        <option>Turnip</option> 
+        <option>Ash Gourd</option>
+        <option>Snake Gourd</option>
+        <option>Ridge Gourd</option>
+        <option>Ivy Gourd</option>
+        <option>Squash</option>
+        <option>Cluster Beans</option>
+        <option>Broad Beans</option>
+        <option>Peas</option>
+        <option>Field Beans</option>
+        <option>Lady's Finger</option>
+        <option>Jute</option>
+        <option>Bengal Gram</option>
+        <option>Barley</option>
+        <option>Jowar</option>
+        <option>Black Gram</option>
+        <option>Tomato</option>
+        <option>Onion</option>
+        <option>Potato</option>
+        <option>Rice</option>
+        <option>Wheat</option>
+        <option>Paddy</option>
+        <option>Corn</option>
+        <option>Bajra</option>
+        <option>Cotton</option>
+        <option>Sugarcane</option>
+        <option>Mango</option>
+        <option>Banana</option>
+        <option>Pomegranate</option>
+        <option>Papaya</option>
+        <option>Brinjal</option>
+        <option>Cabbage</option>
+        <option>Cauliflower</option>
+        <option>Carrot</option>
+        <option>Spinach</option>
+        <option>Beetroot</option>
+        <option>Sweet Potato</option>
+        <option>Cucumber</option>
+        <option>Radish</option>
+        <option>Pumpkin</option>
+        <option>Drumstick</option>
+        <option>Jackfruit</option>
+        <option>Green Beans</option>
+        <option>Capsicum</option>
+        <option>Bottle Gourd</option>
+        <option>Elephant Foot Yam</option>
+      </select>
+
+      <!-- Month Selection -->
+      <label for="month">Prediction Month:</label>
+      <input type="month" id="month" required>
+
+      <!-- Submit -->
+      <button type="submit">Predict Price</button>
+    </form>
+
+    <!-- Result -->
+    <div id="result"></div>
+    <canvas id="priceChart" width="400" height="200"></canvas>
+  </div>
+
+  <script>
+    let chart;
+
+    document.getElementById("predictionForm").addEventListener("submit", async function(e){
+      e.preventDefault();
+
+      const state = document.getElementById("state").value;
+      const crop = document.getElementById("crop").value;
+      const month = document.getElementById("month").value;
+
+      try {
+        const response = await fetch("http://localhost:5501/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ state, crop, month })
+        });
+
+        const data = await response.json();
+
+        // Show text result
+        document.getElementById("result").innerHTML = `
+          State: <b>${data.state}</b><br>
+          Crop: <b>${data.crop}</b><br>
+          Month: <b>${data.month}</b><br>
+          Current Price: <span style="color:blue;">${data.currentPrice} ${data.unit}</span><br>
+          Predicted Price: <span style="color:green;">${data.predictedPrice} ${data.unit}</span>
+        `;
+
+        // Draw chart
+        const ctx = document.getElementById("priceChart").getContext("2d");
+        if (chart) chart.destroy(); // destroy old chart if exists
+
+        chart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Current Price", "Predicted Price"],
+            datasets: [{
+              label: "Price Comparison",
+              data: [data.currentPrice, data.predictedPrice],
+              backgroundColor: ["#1565c0", "#2e7d32"]
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      } catch (error) {
+        document.getElementById("result").innerHTML = "Error fetching prediction!";
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
